@@ -11,8 +11,10 @@ app.config["MONGODB_SETTINGS"] = {
 }
 db = MongoEngine(app)
 api = Api(app)
-CORS(app)
-
+# CORS(app)
+CORS(app, resources={r"/purchase_item/item/*": {"origins": "*"}})
+CORS(app, resources={r"/purchase_item/user/*": {"origins": "*"}})
+CORS(app, resources={r"/purchase_item/*": {"origins": "*"}})
 
 from .models import purchase_items_model
 from .services import purchase_items_service
