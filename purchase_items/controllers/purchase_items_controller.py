@@ -10,7 +10,7 @@ from flask_restful import Resource
 from purchase_items import app, api
 import json
 import io
-
+from flask_cors import cross_origin
 
 
 
@@ -36,6 +36,7 @@ class PurchaseItemController(Resource):
         return purchase_items, 200
 
     def post(self):
+        # import ipdb; ipdb.set_trace()
         data_json = {
             "product_id": request.json["_id"],
             "user_agent": request.headers.get("User-Agent"),
@@ -45,10 +46,13 @@ class PurchaseItemController(Resource):
 
     def put(self):
         user_agent = request.headers.get("User-Agent")
-        purchase_items = update_purchase_items_by_user_id(
-            user_agent, request.json["subtotal"]
-        )
-        return {"msg" "ok"}, 200
+
+        for key, value in request.json.items():
+            purchase_items = update_purchase_items_by_user_id(
+                user_agent, key, value
+            )
+
+        return {"msg": "ok"}, 200
 
 
 # api.add_resource(PurchaseItemUserAgentController, "/purchase_item/<user_agent>")

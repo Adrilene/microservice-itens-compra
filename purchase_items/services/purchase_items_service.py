@@ -11,8 +11,9 @@ def get_purchase_items_by_user_agent(user_agent):
     return PurchaseItems.objects(user_agent=user_agent)
 
 
-def update_purchase_items_by_user_id(user_agent, subtotal):
-    return PurchaseItems.objects(user_agent=user_agent).update(set__subtotal=subtotal)
+def update_purchase_items_by_user_id(user_agent, key, value):
+    data = {f"set__{key}": value}
+    return PurchaseItems.objects(user_agent=user_agent).update(**data)
 
 
 def calculate_price(price, discount_price, discount):
@@ -21,7 +22,7 @@ def calculate_price(price, discount_price, discount):
 
 def insert_purchase_item(body: dict):
     data_product = requests.get(
-        f"http://localhost:5005/product/{body['product_id']}"
+        f"http://localhost:5000/product/{body['product_id']}"
     ).json()
     # items_buy = get_purchase_items_by_user_agent(user_agent)
 
