@@ -59,3 +59,8 @@ def delete_item_by_item_id(item_id):
     del new_purchase_items["created_at"]
     new_itens = [item for item in new_purchase_items["itens"] if item["id"] != item_id]
     PurchaseItems.objects(itens__id=item_id).update(set__itens=new_itens)
+
+def delete_purchase_item_by_user_agent(user_agent):
+    purchase_item = PurchaseItems.objects(user_agent=user_agent)
+    if purchase_item:
+        purchase_item.delete()

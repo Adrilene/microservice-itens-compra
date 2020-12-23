@@ -5,6 +5,7 @@ from purchase_items.services.purchase_items_service import (
     delete_item_by_item_id,
     insert_purchase_item,
     update_purchase_items_by_user_id,
+    delete_purchase_item_by_user_agent,
 )
 from flask_restful import Resource
 from purchase_items import app, api
@@ -36,7 +37,6 @@ class PurchaseItemController(Resource):
         return purchase_items, 200
 
     def post(self):
-        # import ipdb; ipdb.set_trace()
         data_json = {
             "product_id": request.json["_id"],
             "user_agent": request.headers.get("User-Agent"),
@@ -52,6 +52,10 @@ class PurchaseItemController(Resource):
                 user_agent, key, value
             )
 
+        return {"msg": "ok"}, 200
+
+    def delete(self):
+        delete_purchase_item_by_user_agent(request.headers.get("User-Agent"))
         return {"msg": "ok"}, 200
 
 
